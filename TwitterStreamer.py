@@ -16,7 +16,7 @@ class StreamListener(tweepy.StreamListener):
     def writeStatusToFile(state, text):
         fileName = state + ".txt"
         f = open(fileName,'a+')
-        f.write(text + "\n -------------------------------- \n")
+        f.write(text + "\n")
         f.close()
     def getState(place):
         state = 'x'
@@ -41,4 +41,3 @@ class StreamListener(tweepy.StreamListener):
 stream_listener = StreamListener()
 stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
 stream.filter(locations=[-123.750000,28.304381,-67.675781,48.806863])
-
