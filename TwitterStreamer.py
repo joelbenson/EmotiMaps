@@ -17,6 +17,7 @@ class StreamListener(tweepy.StreamListener):
     def writeStatusToFile(state, text):
         fileName = state + ".txt"
         f = open(fileName,'a+')
+        f.write(text + "\n")
         f.close()
     def getState(place):
         state = 'x'
@@ -48,5 +49,3 @@ class StreamListener(tweepy.StreamListener):
 with open("CA.txt", "r") as f:
     for line in f: 
         get_emotion_of_tweet(line)
-
-
