@@ -46,6 +46,7 @@ class StreamListener(tweepy.StreamListener):
 # stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
 # stream.filter(locations=[-167.695313,16.804541,-60.996094,72.019729])
 
-with open("CA.txt", "r") as f:
-    for line in f: 
+with open("NAS.txt", "r") as f:
+    for line in f:
         get_emotion_of_tweet(line)
+
