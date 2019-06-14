@@ -1,6 +1,5 @@
 import json
 import tweepy
-from EmotionRanker import get_emotion_of_tweet
 
 class StreamListener(tweepy.StreamListener):
     def writeStatusToFile(state, text):
