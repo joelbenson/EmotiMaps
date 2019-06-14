@@ -1,5 +1,6 @@
 import json
 import tweepy
+from EmotionRanker import get_emotion_of_tweet
 
 consumer_key = "TC0gBTsiLpQK43kcVWLYwysr9"
 consumer_secret = "A0GfMBG2O2IykxbaTNvqfvAUxQSmtjpNO2qaJgxd4di6mKlhWV"
@@ -24,13 +25,16 @@ class StreamListener(tweepy.StreamListener):
         if (len(tuple) > 1):
             state = tuple[1]
         if (len(state) == 2):
-            return state;
+            return state
         return "NAS"
     def on_status(self, status):
         if not(status.text[0] == '@'):
             print(status.text)
             state = StreamListener.getState(status.place.full_name)
-            StreamListener.writeStatusToFile(state, status.text)
+            try: 
+                StreamListener.writeStatusToFile(state, status.text)
+            except:
+                print("emoji tweet") 
             print(state)
             print(" ")
     def on_error(self, status_code):
@@ -38,6 +42,10 @@ class StreamListener(tweepy.StreamListener):
             return False
 
 
-stream_listener = StreamListener()
-stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
-stream.filter(locations=[-123.750000,28.304381,-67.675781,48.806863])
+# stream_listener = StreamListener()
+# stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
+# stream.filter(locations=[-167.695313,16.804541,-60.996094,72.019729])
+
+with open("CA.txt", "r") as f:
+    for line in f: 
+        get_emotion_of_tweet(line)
