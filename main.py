@@ -19,9 +19,7 @@ def main():
 
     #Choose coordinate box for tweet locations
     stream.filter(locations=[-167.695313,16.804541,-60.996094,72.019729])
-    time.sleep(10)
-    stream.disconnect()
-    print("done")
+
     #with open("CA.txt", "r") as f:
     #    for line in f:
     #        get_emotion_of_tweet(line)
