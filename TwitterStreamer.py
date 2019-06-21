@@ -1,10 +1,15 @@
 import json
 import tweepy
-from EmotionRanker import get_emotion_of_tweet
+from EmotionRanker import EmotionalRanker
 
 class StreamListener(tweepy.StreamListener):
-    count = 0
-    MAX_TWEETS = 50
+    def __init__(self, api=None):
+        self.api = api or tweepy.API()
+        self.count = 0
+        self.MAX_TWEETS = 50
+        self.emotionalRanker = EmotionalRanker()
+    def initializeEmotionRanker():
+        self.emotionalRanker = EmotionalRanker()
     def writeStatusToFile(state, text):
         fileName = "StateTweets/" + state + ".txt"
         f = open(fileName,'a+')
@@ -33,11 +38,11 @@ class StreamListener(tweepy.StreamListener):
             except:
                 print("emoji tweet")
             #get dictionary of emotions from the tweet
-            dict emotions = get_emotion_of_tweet(status.text)
+            emotions = self.emotionalRanker.rank(status.text)
             #print out the emotions of the tweet_word_list
-            for x, y in dict.items():
+            for x, y in emotions.items():
                 print(x, y)
-            if (StreamListener.count > StreamListener.MAX_TWEETS):
+            if (self.count > self.MAX_TWEETS):
                 return False
             print(state)
             print(" ")

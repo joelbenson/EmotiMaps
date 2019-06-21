@@ -1,7 +1,6 @@
 import json
 import tweepy
 from TwitterStreamer import StreamListener
-from EmotionRanker import get_emotion_of_tweet
 
 def main():
     #Access to Twitter API
@@ -15,6 +14,7 @@ def main():
 
     #Opening Stream
     stream_listener = StreamListener()
+    # stream_listener.initializeEmotionRanker()
     stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
 
     #Choose coordinate box for tweet locations
