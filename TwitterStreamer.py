@@ -44,6 +44,7 @@ class StreamListener(tweepy.StreamListener):
                 print(x, y)
             if (self.count > self.MAX_TWEETS):
                 return False
+            self.count = self.count + 1
             print(state)
             print(" ")
     def on_error(self, status_code):
