@@ -33,10 +33,10 @@ class StreamListener(tweepy.StreamListener):
             except:
                 print("emoji tweet")
             #get dictionary of emotions from the tweet
-            #dict emotions = get_emotion_of_tweet(status.text)
+            dict emotions = get_emotion_of_tweet(status.text)
             #print out the emotions of the tweet_word_list
-            #for x, y in dict.items():
-            #    print(x, y)
+            for x, y in dict.items():
+                print(x, y)
             if (StreamListener.count > StreamListener.MAX_TWEETS):
                 return False
             print(state)
