@@ -3,7 +3,7 @@ import tweepy
 
 class StreamListener(tweepy.StreamListener):
     def writeStatusToFile(state, text):
-        fileName = state + ".txt"
+        fileName = "StateTweets/" + state + ".txt"
         f = open(fileName,'a+')
         f.write(text + "\n")
         f.close()
