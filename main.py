@@ -1,6 +1,7 @@
 import json
 import tweepy
 from TwitterStreamer import StreamListener
+from stateUtilities import StateUtilities
 from data import StateData
 
 def main():
@@ -16,8 +17,8 @@ def main():
     #Constant Variables
     NUM_LOCATIONS = 51
     NUM_EMOTIONS = 10
-    NUM_TWEETS_BETWEEN_UPDATES = 10
-    ROLLOVER = 30
+    NUM_TWEETS_BETWEEN_UPDATES = 2500
+    ROLLOVER = 50
 
 
     #Initialize data storage
@@ -39,11 +40,12 @@ def main():
     #print out emotion data
     i = 0
     for stateData in database:
-        print("State: " + str(i))
+        print("State: " + StateUtilities.getStateFromIndex(i))
         i = i+1
         print("Status Count: " + str(stateData.statusCount))
         #print(stateData.data[0:NUM_EMOTIONS])
-        print("Average: " + str(StateData.getAverageEmotions(stateData)))
+        print("Averages: ")
+        print(str(StateData.getAverageEmotions(stateData)))
         print("")
 
 
