@@ -2,7 +2,7 @@ import csv
 import os
 from operator import add
 
-class EmotionalRanker:
+class EmotionalRanker():
     emotional_directory = {}
     emotions = ["anger", "anticipation", "disgust", "fear", "joy", "negative", "positive", "sadness", "surprise", "trust"]
 

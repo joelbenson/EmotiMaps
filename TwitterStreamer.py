@@ -7,24 +7,20 @@ from statusUtilities import StatusUtilities
 
 class StreamListener(tweepy.StreamListener):
 
-    def __init__(self, stateArray, api=None):
+    def __init__(self, data, api=None):
         self.api = api or tweepy.API()
         self.count = 0
         self.MAX_TWEETS = 50
         self.emotionalRanker = EmotionalRanker()
-        self.stateArray = stateArray
+        self.data = data
 
     def on_status(self, status):
         #Do not account for reply threads or retweets
         if StatusUtilities.statusConditionsHold(status):
-            #print to command line
-            print(status.text)
-            print(status.id_str)
-            print(status.created_at)
             #get state location of tweet
             state = StateUtilities.getState(status.place.full_name, status.user.location)
             #Write tweet to correct state file
-            StatusUtilities.writeStatusToFile(state, status.text)
+            StatusUtilities.writeStatusToFile(state, status)
             #get dictionary of emotions from the tweet
             emotions = self.emotionalRanker.rank(status.text)
             #print out the emotions of the tweet_word_list

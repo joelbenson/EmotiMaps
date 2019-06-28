@@ -1,11 +1,14 @@
 from stateUtilities import StateUtilities
 
 class StatusUtilities():
-        def writeStatusToFile(state, text):
+        def writeStatusToFile(state, status):
+            print(status.text)
+            print(status.id_str)
+            print(status.created_at)
             try:
                 fileName = "StateTweets/" + state + ".txt"
                 f = open(fileName,'a+')
-                f.write(text + "\n")
+                f.write(status.text + "\n")
                 f.close()
             except:
                 print("Emoji Tweet")

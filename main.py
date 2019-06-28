@@ -1,6 +1,8 @@
 import json
 import tweepy
 from TwitterStreamer import StreamListener
+from data import EmotionalData
+from data import StateData
 
 def main():
     #Access to Twitter API
@@ -12,10 +14,14 @@ def main():
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
 
-    stateArray = 0;
+    #Constant Variables
+    NUM_LOCATIONS = 50
+
+    #Initialize data storage
+    data = EmotionalData(NUM_LOCATIONS)
 
     #Opening Stream
-    stream_listener = StreamListener(stateArray)
+    stream_listener = StreamListener(data)
     # stream_listener.initializeEmotionRanker()
     stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
 
