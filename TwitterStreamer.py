@@ -1,18 +1,19 @@
 import json
 import tweepy
+import keyboard
 from EmotionRanker import EmotionalRanker
-from stateUtilities import StateEnum
 from stateUtilities import StateUtilities
 from statusUtilities import StatusUtilities
+from data import StateData
 
 class StreamListener(tweepy.StreamListener):
 
-    def __init__(self, data, api=None):
+    def __init__(self, database, maxTweets, api=None):
         self.api = api or tweepy.API()
         self.count = 0
-        self.MAX_TWEETS = 50
+        self.MAX_TWEETS = maxTweets
         self.emotionalRanker = EmotionalRanker()
-        self.data = data
+        self.database = database
 
     def on_status(self, status):
         #Do not account for reply threads or retweets
@@ -23,9 +24,9 @@ class StreamListener(tweepy.StreamListener):
             StatusUtilities.writeStatusToFile(state, status)
             #get dictionary of emotions from the tweet
             emotions = self.emotionalRanker.rank(status.text)
+            #store emotions in data object
+            StateData.store(self.database[StateUtilities.getStateIndex(state)], emotions)
             #print out the emotions of the tweet_word_list
-            for x, y in emotions.items():
-                print(x, y)
             if (self.count > self.MAX_TWEETS):
                 return False
             self.count = self.count + 1

@@ -17,7 +17,8 @@ class StatusUtilities():
             notRetweet = not (status.text[0] == 'R') and not (status.text[1] =='T')
             notReply = not (status.text[0] == '@')
             try:
-                validLocation = len(StateUtilities.getState(status.place.full_name, status.user.location)) == 2
+                validLocation = StateUtilities.checkValidState(StateUtilities.getState(status.place.full_name, status.user.location))
             except:
                 validLocation = False
+                print("Invalid Location")
             return (notRetweet and notReply and validLocation)

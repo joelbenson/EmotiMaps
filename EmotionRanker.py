@@ -22,3 +22,17 @@ class EmotionalRanker():
                 tweet_emotions_score = [sum(x) for x in zip(tweet_emotions_score, self.emotional_directory[word])]
 
         return dict(zip(self.emotions, tweet_emotions_score))
+
+    def getEmotionIndex(emotion):
+        return{
+            "anger": 0,
+            "anticipation": 1,
+            "disgust": 2,
+            "fear": 3,
+            "joy": 4,
+            "negative": 5,
+            "positive": 6,
+            "sadness": 7,
+            "surprise": 8,
+            "trust": 9
+        }[emotion]

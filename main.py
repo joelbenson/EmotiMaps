@@ -1,7 +1,6 @@
 import json
 import tweepy
 from TwitterStreamer import StreamListener
-from data import EmotionalData
 from data import StateData
 
 def main():
@@ -15,13 +14,19 @@ def main():
     api = tweepy.API(auth)
 
     #Constant Variables
-    NUM_LOCATIONS = 50
+    NUM_LOCATIONS = 51
+    NUM_EMOTIONS = 10
+    NUM_TWEETS_BETWEEN_UPDATES = 10
+    ROLLOVER = 30
+
 
     #Initialize data storage
-    data = EmotionalData(NUM_LOCATIONS)
+    database = []
+    for i in range(0, NUM_LOCATIONS):
+        database.append(StateData(NUM_EMOTIONS, ROLLOVER))
 
     #Opening Stream
-    stream_listener = StreamListener(data)
+    stream_listener = StreamListener(database, NUM_TWEETS_BETWEEN_UPDATES)
     # stream_listener.initializeEmotionRanker()
     stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
 
@@ -31,6 +36,15 @@ def main():
 
     stream.filter(languages = ["en"], locations = USA)
 
+    #print out emotion data
+    i = 0
+    for stateData in database:
+        print("State: " + str(i))
+        i = i+1
+        print("Status Count: " + str(stateData.statusCount))
+        #print(stateData.data[0:NUM_EMOTIONS])
+        print("Average: " + str(StateData.getAverageEmotions(stateData)))
+        print("")
 
 
 if __name__ == "__main__":
