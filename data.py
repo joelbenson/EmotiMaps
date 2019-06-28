@@ -11,7 +11,6 @@ class StateData():
 
     def store(state, emotions):
         for emotion, value in emotions.items():
-            print(emotion, value)
             state.data[EmotionalRanker.getEmotionIndex(emotion)][state.indexer] = value
         state.indexer = (state.indexer + 1) % state.rollover
         state.statusCount = state.statusCount + 1
@@ -24,5 +23,5 @@ class StateData():
             averages.append(np.sum(stateData.data[emotion]/observationCount))
 
         averages = ['%.2f' % elem for elem in averages]
-        
+
         return averages

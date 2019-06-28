@@ -25,13 +25,14 @@ class StreamListener(tweepy.StreamListener):
             #get dictionary of emotions from the tweet
             emotions = self.emotionalRanker.rank(status.text)
             #store emotions in data object
-            StateData.store(self.database[StateUtilities.getStateIndex(state)], emotions)
+            StateData.store(self.database[StateUtilities.getStateIndex(state)], emotions)    
+            self.count = self.count + 1
+            print(status.place.full_name)
+            print("Count is at:" + str(self.count))
+            print(" ")
             #print out the emotions of the tweet_word_list
             if (self.count > self.MAX_TWEETS):
                 return False
-            self.count = self.count + 1
-            print(status.place.full_name)
-            print(" ")
 
     def on_error(self, status_code):
         if status_code == 420:

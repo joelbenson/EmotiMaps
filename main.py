@@ -18,7 +18,7 @@ def main():
     NUM_LOCATIONS = 51
     NUM_EMOTIONS = 10
     NUM_TWEETS_BETWEEN_UPDATES = 2500
-    ROLLOVER = 50
+    ROLLOVER = 30
 
 
     #Initialize data storage
