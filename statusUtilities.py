@@ -1,10 +1,14 @@
 from stateUtilities import StateUtilities
 
 class StatusUtilities():
+        def displayStatus(status):
+            try:
+                print(status.text)
+                print(status.place.full_name)
+                print(status.created_at)
+            except:
+                return
         def writeStatusToFile(state, status):
-            print(status.text)
-            print(status.id_str)
-            print(status.created_at)
             try:
                 fileName = "StateTweets/" + state + ".txt"
                 f = open(fileName,'a+')
@@ -20,5 +24,4 @@ class StatusUtilities():
                 validLocation = StateUtilities.checkValidState(StateUtilities.getState(status.place.full_name, status.user.location))
             except:
                 validLocation = False
-                print("Invalid Location")
             return (notRetweet and notReply and validLocation)

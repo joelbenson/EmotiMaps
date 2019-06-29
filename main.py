@@ -3,6 +3,7 @@ import tweepy
 from TwitterStreamer import StreamListener
 from stateUtilities import StateUtilities
 from data import StateData
+from visualizer import Visualizer
 
 def main():
     #Access to Twitter API
@@ -17,9 +18,14 @@ def main():
     #Constant Variables
     NUM_LOCATIONS = 51
     NUM_EMOTIONS = 10
-    NUM_TWEETS_BETWEEN_UPDATES = 2500
-    ROLLOVER = 30
+    NUM_TWEETS_BETWEEN_UPDATES = 250
+    ROLLOVER = 100 #number of most recent tweets used to calculate averages
 
+    DISPLAY_TWEETS = True
+    WRITE_TWEETS_TO_FILE = False
+
+    LOCATIONS = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
+    EMOTIONS = ["anger", "anticipation", "disgust", "fear", "joy", "negative", "positive", "sadness", "surprise", "trust"]
 
     #Initialize data storage
     database = []
@@ -27,7 +33,7 @@ def main():
         database.append(StateData(NUM_EMOTIONS, ROLLOVER))
 
     #Opening Stream
-    stream_listener = StreamListener(database, NUM_TWEETS_BETWEEN_UPDATES)
+    stream_listener = StreamListener(database, NUM_TWEETS_BETWEEN_UPDATES, DISPLAY_TWEETS, WRITE_TWEETS_TO_FILE)
     # stream_listener.initializeEmotionRanker()
     stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
 
@@ -35,19 +41,15 @@ def main():
     USA = [-167.695313,16.804541,-60.996094,72.019729]
     MN = [-96.372070,44.527843,-92.482910,47.665387]
 
-    stream.filter(languages = ["en"], locations = USA)
+    while (True):
+        #filter through the tweets of given language and location
+        stream.filter(languages = ["en"], locations = USA)
 
-    #print out emotion data
-    i = 0
-    for stateData in database:
-        print("State: " + StateUtilities.getStateFromIndex(i))
-        i = i+1
-        print("Status Count: " + str(stateData.statusCount))
-        #print(stateData.data[0:NUM_EMOTIONS])
-        print("Averages: ")
-        print(str(StateData.getAverageEmotions(stateData)))
-        print("")
+        #print out emotion data
+        StateData.displayData(database)
 
+        #Visualize state data
+        Visualizer.visualizeData(database, EMOTIONS, LOCATIONS)
 
 if __name__ == "__main__":
     main()

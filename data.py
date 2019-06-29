@@ -1,5 +1,6 @@
 import numpy as np
 from EmotionRanker import EmotionalRanker
+from stateUtilities import StateUtilities
 
 class StateData():
     def __init__(self, NUM_EMOTIONS, ROLLOVER):
@@ -14,7 +15,6 @@ class StateData():
             state.data[EmotionalRanker.getEmotionIndex(emotion)][state.indexer] = value
         state.indexer = (state.indexer + 1) % state.rollover
         state.statusCount = state.statusCount + 1
-        print("Data stored")
 
     def getAverageEmotions(stateData):
         averages = []
@@ -22,6 +22,26 @@ class StateData():
         for emotion in range(0, stateData.numEmotions):
             averages.append(np.sum(stateData.data[emotion]/observationCount))
 
-        averages = ['%.2f' % elem for elem in averages]
-
         return averages
+
+    def getEmotionData(database, emotion):
+        emotionIndex = EmotionalRanker.getEmotionIndex(emotion)
+        emotionRankings = []
+        for stateData in database:
+            if stateData.statusCount > 0:
+                emotionRankings.append(StateData.getAverageEmotions(stateData)[emotionIndex])
+            else:
+                emotionRankings.append(0)
+        return emotionRankings
+
+    def displayData(database):
+        locationCount = 0
+        for stateData in database:
+            averages = StateData.getAverageEmotions(stateData)
+            averages = ['%.2f'% elem for elem in averages]
+            print("State: " + StateUtilities.getStateFromIndex(locationCount))
+            locationCount = locationCount+1
+            print("Status Count: " + str(stateData.statusCount))
+            print("Averages: ")
+            print(averages)
+            print("")
