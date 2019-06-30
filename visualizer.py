@@ -30,4 +30,4 @@ class Visualizer():
                     showlakes = False,
                     lakecolor = 'rgb(255, 255, 255)'),
                 )
-            plotly.offline.plot(go.Figure(data=[data], layout = layout), filename= (emotion + ".html"))
+            plotly.offline.plot(go.Figure(data=[data], layout = layout), filename= (emotion + ".html"), auto_open = False)
